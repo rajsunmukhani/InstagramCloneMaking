@@ -16,3 +16,10 @@
      login route,   ✅
      logout route,  ✅
      isLoggedIn middleware   ✅
+
+5. make profile.ejs page values dynamic ✅
+
+6. update bio to be a static value untill it has no value ✅
+
+7. Enable uploading of profile image using multer ✅
+

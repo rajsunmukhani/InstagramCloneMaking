@@ -6,9 +6,14 @@ const plm = require('passport-local-mongoose');
 
 const userSchema = mongoose.Schema({
     username : String,
+    name : String,
     email : String,
     password : String,
-    picture : String,
+    bio : String,
+    picture : {
+        type : String,
+        default : "avatar.jpg"
+    },
     contact : String,
     followers : [{
         type : mongoose.Schema.Types.ObjectId,

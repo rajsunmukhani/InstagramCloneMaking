@@ -3,6 +3,7 @@ const passport = require('passport');
 var router = express.Router();
 var localStrategy = require('passport-local');
 const userModel = require('./users');
+const upload = require("./multer")
 
 passport.use(new localStrategy(userModel.authenticate()));
 
@@ -20,16 +21,18 @@ router.get('/feed', isLoggedIn ,function(req, res) {
   res.render('feed', {footer: true});
 });
 
-router.get('/profile', isLoggedIn ,function(req, res) {
-  res.render('profile', {footer: true});
+router.get('/profile', isLoggedIn ,async function(req, res) {
+  var user = await userModel.findOne({username : req.session.passport.user})
+  res.render('profile', {footer: true,user});
 });
 
 router.get('/search', isLoggedIn ,function(req, res) {
   res.render('search', {footer: true});
 });
 
-router.get('/edit', isLoggedIn ,function(req, res) {
-  res.render('edit', {footer: true});
+router.get('/edit', isLoggedIn ,async function(req, res) {
+  var user = await userModel.findOne({username : req.session.passport.user})
+  res.render('edit', {footer: true,user});
 });
 
 router.get('/upload', isLoggedIn ,function(req, res) {
@@ -65,6 +68,14 @@ router.post('/login',passport.authenticate("local",{
   failureRedirect : "/login"
 }),function(req,res){})
 
+
+
+router.post('/upload', isLoggedIn, upload.single("profileImage") ,async function(req, res) {
+  let user = await userModel.findOne({username : req.session.passport.user})
+  user.picture = req.file.filename;
+  await user.save();
+  res.redirect('/edit')
+});
 
 
 // MIDDLEWARES
