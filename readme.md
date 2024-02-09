@@ -23,3 +23,8 @@
 
 7. Enable uploading of profile image using multer ✅
 
+8. Making edit profile fully functional ✅
+
+9. Enable update of data on save and update of values in edit.ejs page ✅
+
+10. Enable profile image visible on footer panel ✅

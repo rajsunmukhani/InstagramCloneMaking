@@ -17,8 +17,9 @@ router.get('/login', function(req, res) {
   res.render('login', {footer: false});
 });
 
-router.get('/feed', isLoggedIn ,function(req, res) {
-  res.render('feed', {footer: true});
+router.get('/feed', isLoggedIn ,async function(req, res) {
+  var user = await userModel.findOne({username : req.session.passport.user})
+  res.render('feed', {footer: true, user});
 });
 
 router.get('/profile', isLoggedIn ,async function(req, res) {
@@ -26,8 +27,9 @@ router.get('/profile', isLoggedIn ,async function(req, res) {
   res.render('profile', {footer: true,user});
 });
 
-router.get('/search', isLoggedIn ,function(req, res) {
-  res.render('search', {footer: true});
+router.get('/search', isLoggedIn ,async function(req, res) {
+  var user = await userModel.findOne({username : req.session.passport.user})
+  res.render('search', {footer: true,user});
 });
 
 router.get('/edit', isLoggedIn ,async function(req, res) {
@@ -35,8 +37,9 @@ router.get('/edit', isLoggedIn ,async function(req, res) {
   res.render('edit', {footer: true,user});
 });
 
-router.get('/upload', isLoggedIn ,function(req, res) {
-  res.render('upload', {footer: true});
+router.get('/upload', isLoggedIn ,async function(req, res) {
+  var user = await userModel.findOne({username : req.session.passport.user})
+  res.render('upload', {footer: true,user});
 });
 
 router.get("/logout",function(req,res,next){
@@ -72,9 +75,22 @@ router.post('/login',passport.authenticate("local",{
 
 router.post('/upload', isLoggedIn, upload.single("profileImage") ,async function(req, res) {
   let user = await userModel.findOne({username : req.session.passport.user})
-  user.picture = req.file.filename;
+  if (req.file){
+    user.picture = req.file.filename;
+  }
   await user.save();
   res.redirect('/edit')
+});
+
+
+router.post('/update', isLoggedIn, async function(req, res) {
+  var user = await userModel.findOneAndUpdate({username : req.session.passport.user},
+    {username : req.body.username,name : req.body.name,bio : req.body.bio} ,{new : true});
+
+  req.logIn(user, function(err){
+    if(err) throw err;
+    res.redirect('/profile');
+  })
 });
 
 
