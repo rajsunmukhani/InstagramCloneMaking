@@ -28,3 +28,7 @@
 9. Enable update of data on save and update of values in edit.ejs page ✅
 
 10. Enable profile image visible on footer panel ✅
+
+11. Enabling our app to create and display posts on profile page ✅
+
+12. 
