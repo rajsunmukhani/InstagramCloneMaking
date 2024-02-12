@@ -5,6 +5,7 @@ var localStrategy = require('passport-local');
 const userModel = require('./users');
 const upload = require("./multer")
 const postModel = require('./post');
+const timingFunc = require('../utils/timingFunc');
 
 passport.use(new localStrategy(userModel.authenticate()));
 
@@ -19,8 +20,10 @@ router.get('/login', function(req, res) {
 });
 
 router.get('/feed', isLoggedIn ,async function(req, res) {
+  var posts = await postModel.find().populate('user');
   var user = await userModel.findOne({username : req.session.passport.user})
-  res.render('feed', {footer: true, user});
+
+  res.render('feed', {footer: true, user,posts,timer : timingFunc});
 });
 
 router.get('/profile', isLoggedIn ,async function(req, res) {

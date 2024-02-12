@@ -31,4 +31,6 @@
 
 11. Enabling our app to create and display posts on profile page ✅
 
-12. 
+12. Made feed page come in action ✅
+
+13. 

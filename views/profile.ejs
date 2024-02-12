@@ -39,7 +39,7 @@
             No Posts Yet
           </div>
         <% }else{ %>
-          <% user.posts.forEach(function(post){ %>
+          <% user.posts.reverse().forEach(function(post){ %>
             <div class="overflow-hidden post w-[32.5%] h-32 bg-sky-100">
               <img class="w-full h-full object-cover" src="/images/uploads/<%= post.media %>" alt="">
             </div>
