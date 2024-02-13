@@ -33,4 +33,6 @@
 
 12. Made feed page come in action ✅
 
-13. 
+13. Enable liking a post on feed page ✅
+
+14. Make the animation for user when liking the post.

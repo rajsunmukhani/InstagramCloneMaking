@@ -69,7 +69,7 @@
         </div>
       </div>
     </div>
-    <div class="posts mb-20">
+    <div class="parent posts mb-20">
       <% posts.reverse().forEach(function(post){ %>
         <div class="post mt-10 w-full min-h-[50vh]">
           <div class="title px-4 flex items-center gap-2">
@@ -79,22 +79,56 @@
             <h4 class="text-sm"><%= post.user.username %></h4>
             <h6 class="text-xs opacity-30"><%= timer(post.date) %></h6>
           </div>
-          <div class="overflow-hidden w-full h-96 mt-4 bg-sky-100">
-            <img class="w-full h-full object-cover" src="/images/uploads/<%= post.media %>" alt="">
+          <div class="parentImage overflow-hidden w-full h-96 mt-4 bg-sky-100">
+            <img data-postid="<%= post._id %>" class="postImg w-full h-full object-cover" src="/images/uploads/<%= post.media %>" alt="">
           </div>
           <div class="options w-full px-4 flex justify-between items-center text-[1.4rem]">
             <div class="flex gap-3 mt-2">
-              <i class="ri-heart-3-line"></i>
+              <% if(post.likes.indexOf(user._id) === -1){ %>
+                <i class="heart ri-heart-3-line"></i>
+              <% } else{ %>
+                <i class="text-red-500 heart ri-heart-3-fill"></i>
+              <% } %>
               <i class="ri-chat-3-line"></i>
               <i class="ri-share-circle-line"></i>
             </div>
             <i class="ri-bookmark-line"></i>
           </div>
-          <h3 class="px-4 mt-2 text-sm leading-none tracking-tight"><%= post.likes.length %> likes</h3>
+          <h3 class="likeValue px-4 mt-2 text-sm leading-none tracking-tight"><%= post.likes.length %> likes</h3>
           <h2 class="text-white font-light text-sm mt-2"><span class="font-semibold pl-4 pr-2"><%= post.user.username %></span><%= post.caption %></h2>
         </div>
       <% }) %>
 
     </div>
   </div>
+
+  <script>
+    
+    document.querySelector('.parent').addEventListener('click', function(dets){
+      var grandParentNode = dets.target.parentNode.parentNode
+      if(dets.target.classList.contains('postImg')){
+        var heartWithBorder = grandParentNode.querySelector('.heart')
+        if (heartWithBorder.classList.contains('ri-heart-3-line')) {
+          heartWithBorder.classList.remove('ri-heart-3-line');
+          heartWithBorder.classList.add('ri-heart-3-fill');
+          heartWithBorder.style.color = "red";
+        }else{
+          heartWithBorder.classList.remove('ri-heart-3-fill');
+          heartWithBorder.classList.add('ri-heart-3-line');
+          heartWithBorder.style.color = "white";
+        }
+        fetch(`/like/${dets.target.dataset.postid}`)
+        .then(function(raw){
+          return raw.json()
+        })
+        .then(function(response){
+          grandParentNode.querySelector('.likeValue').textContent = response.likes.length + ' likes'
+        })
+      }
+    })
+
+    
+  </script>
+
+
   <% include ./partials/footer.ejs %>

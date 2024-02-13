@@ -53,6 +53,21 @@ router.get("/logout",function(req,res,next){
   })
 })
 
+router.get('/like/:postID',async function(req,res,next){
+  const user = await userModel.findOne({username : req.session.passport.user})
+  const post = await postModel.findOne({_id : req.params.postID})
+
+  if(post.likes.indexOf(user._id) === -1) {
+    post.likes.push(user._id);
+  }else{
+    var userId = post.likes.indexOf(user._id)
+    post.likes.splice(user._id, 1);
+  }
+
+  await post.save();
+  res.json(post);
+})
+
 // POST
 
 router.post('/register',function(req,res){
