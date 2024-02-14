@@ -68,6 +68,15 @@ router.get('/like/:postID',async function(req,res,next){
   res.json(post);
 })
 
+router.get('/search/:someone', async function(req, res) {
+  var searchTerm = req.params.someone;
+  var regex = new RegExp(searchTerm);
+
+  let users = await userModel.find({username : {$regex : regex}})
+
+  res.json(users);
+});
+
 // POST
 
 router.post('/register',function(req,res){
