@@ -35,6 +35,10 @@
 
 13. Enable liking a post on feed page ✅
 
-14. Animation for user when liking the post.
+14. Animation for user when liking the post.✅
 
 15. Making search profile work ✅
+
+16. directing user to the profile of searched user.
+
+17. 

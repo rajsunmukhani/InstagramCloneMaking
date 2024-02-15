@@ -79,7 +79,7 @@
             <h4 class="text-sm"><%= post.user.username %></h4>
             <h6 class="text-xs opacity-30"><%= timer(post.date) %></h6>
           </div>
-          <div class="parentImage overflow-hidden w-full h-96 mt-4 bg-sky-100">
+          <div class="parentImage relative overflow-hidden w-full h-96 mt-4 bg-sky-100">
             <img data-postid="<%= post._id %>" class="postImg w-full h-full object-cover" src="/images/uploads/<%= post.media %>" alt="">
           </div>
           <div class="options w-full px-4 flex justify-between items-center text-[1.4rem]">
@@ -102,7 +102,10 @@
     </div>
   </div>
 
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
+    
     
     document.querySelector('.parent').addEventListener('click', function(dets){
       var grandParentNode = dets.target.parentNode.parentNode
@@ -124,9 +127,37 @@
         .then(function(response){
           grandParentNode.querySelector('.likeValue').textContent = response.likes.length + ' likes'
         })
+        
+        var icon = document.createElement('i');
+        
+        icon.classList.add('ri-heart-3-fill');
+        icon.classList.add('text-red-700','text-6xl','z-[9]','absolute','top-1/2','left-1/2','-transform-x-[50%]','-transform-y-[50%]');
+        
+        dets.target.parentNode.appendChild(icon);
+
+        gsap.from(icon,{
+          scale : .5,
+          opacity : 0,
+          duration : .3,
+          ease : 'expo',
+          y : 30,
+        })
+        gsap.to(icon,{
+           scale : 0,
+           opacity : 0,
+           duration :.3,
+           delay :.3,
+           ease : 'expo',
+           y : -50,
+           onComplete : function(){
+             dets.target.parentNode.removeChild(icon);
+           }
+         })
+
       }
     })
 
+    
     
   </script>
 
