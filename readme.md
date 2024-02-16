@@ -39,6 +39,6 @@
 
 15. Making search profile work ✅
 
-16. directing user to the profile of searched user.
+16. Directing user to the profile of searched user. ✅
 
-17. 
+17. Enabling user to follow oher users and get followed by other users. 

@@ -77,6 +77,17 @@ router.get('/search/:someone', async function(req, res) {
   res.json(users);
 });
 
+router.get('/profile/:searchedUser', isLoggedIn,async function(req, res){
+  var goToProfile = await userModel.findOne({username : req.params.searchedUser}).populate('posts');
+  var user = await userModel.findOne({username :req.session.passport.user});
+
+  if(user.username === goToProfile.username){
+    res.redirect('/profile')
+  }else{
+    res.render('userSearched', {footer: true,user,goToProfile});
+  }
+});
+
 // POST
 
 router.post('/register',function(req,res){
