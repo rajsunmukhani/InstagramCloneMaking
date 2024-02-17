@@ -31,10 +31,10 @@
         <p class="text-xs tracking-tight opacity-50"><%= goToProfile.bio ?? "You have not set your bio yet! Click on edit profile to add." %></p>
       </div>
       <div class="px-6 flex gap-3 mt-5">
-        <% if(user.following.indexOf(goToProfile._Id) === -1){ %>
-            <a class="px-8 py-2 bg-blue-600 text-xs rounded-md" href="/">Follow</a>
+        <% if(user.following.indexOf(goToProfile._id) === -1){ %>
+            <a class="px-8 py-2 bg-blue-600 text-xs rounded-md" href="/follow/<%= goToProfile._id %>">Follow</a>
         <% }else{ %>
-            <a class="px-8 py-2 bg-zinc-800 text-xs rounded-md" href="/">Following</a>
+            <a class="px-8 py-2 bg-zinc-800 text-xs rounded-md" href="/follow/<%= goToProfile._id %>">Following</a>
         <% } %>
         <a class="px-8 py-2 bg-zinc-800 text-xs rounded-md" href="/">Mesage</a>
         <a class="px-8 py-2 bg-zinc-800 text-xs rounded-md" href="/">Contact</a>

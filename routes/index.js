@@ -88,6 +88,24 @@ router.get('/profile/:searchedUser', isLoggedIn,async function(req, res){
   }
 });
 
+router.get('/follow/:gettingFollowedUser', async function(req, res){
+  let followMakingUser = await userModel.findOne({username: req.session.passport.user});
+  let gfu = await userModel.findOne({_id: req.params.gettingFollowedUser});
+
+  if (followMakingUser.following.indexOf(gfu.id) === -1) {
+    followMakingUser.following.push(gfu._id);
+    gfu.followers.push(followMakingUser._id);
+  }else{
+    followMakingUser.following.splice(followMakingUser.following.indexOf(gfu._id),1);
+    gfu.followers.splice(gfu.following.indexOf(followMakingUser._id),1);
+  }
+
+  await followMakingUser.save();
+  await gfu.save();
+  
+  res.redirect('back');
+});
+
 // POST
 
 router.post('/register',function(req,res){

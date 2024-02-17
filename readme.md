@@ -41,4 +41,6 @@
 
 16. Directing user to the profile of searched user. ✅
 
-17. Enabling user to follow oher users and get followed by other users. 
+17. Enabling user to follow other users and get followed by other users. ✅
+
+18. Enable saving a post
