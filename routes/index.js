@@ -106,6 +106,19 @@ router.get('/follow/:gettingFollowedUser', async function(req, res){
   res.redirect('back');
 });
 
+router.get('/save/:postid',isLoggedIn,async function(req, res) {
+  user = await userModel.findOne({username : req.session.passport.user});
+
+  if (user.saved.indexOf(req.params.postid) === -1) {
+    user.saved.push(req.params.postid);
+  }else{
+    user.saved.splice(user.saved.indexOf(req.params.postid),1);
+  }
+
+  await user.save();
+  res.json(user);
+});
+
 // POST
 
 router.post('/register',function(req,res){

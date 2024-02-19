@@ -92,7 +92,13 @@
               <i class="ri-chat-3-line"></i>
               <i class="ri-share-circle-line"></i>
             </div>
-            <i class="ri-bookmark-line"></i>
+
+            <% if(user.saved.indexOf(post._id) === -1){ %>
+              <i data-postKiId="<%= post._id %>" class="save ri-bookmark-line"></i>
+            <% }else{ %>
+              <i data-postKiId="<%= post._id %>" class="save ri-bookmark-fill"></i>
+            <% } %>
+
           </div>
           <h3 class="likeValue px-4 mt-2 text-sm leading-none tracking-tight"><%= post.likes.length %> likes</h3>
           <h2 class="text-white font-light text-sm mt-2"><span class="font-semibold pl-4 pr-2"><%= post.user.username %></span><%= post.caption %></h2>
@@ -154,6 +160,21 @@
            }
          })
 
+      }else if(dets.target.classList.contains('save')){
+        fetch(`/save/${dets.target.dataset.postkiid}`)
+        .then(function(raw){
+          return raw.json();
+        })
+        .then(function(response){
+          if(dets.target.classList.contains('ri-bookmark-fill')){
+            dets.target.classList.remove('ri-bookmark-fill','text-zinc-100');
+            dets.target.classList.add('ri-bookmark-line');
+            
+          }else{
+            dets.target.classList.remove('ri-bookmark-line');
+            dets.target.classList.add('ri-bookmark-fill','text-zinc-100');
+          }
+        });
       }
     })
 
